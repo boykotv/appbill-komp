@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
+
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+
 import './App.css';
 
 class App extends Component {
@@ -46,35 +55,129 @@ class App extends Component {
   render() {
     const { data, isDataFetching } = this.state;
     return (
-      <div class="container">
-				<div class="row">
-					<div class="col-md-6">	
-						<div class="alert alert-success" id="success-alert">
-							<strong>Успешно! </strong>
-							Данные загружены!
-						</div>	
-						<form id="form" action="">										
-							<div id="options" class="pull-right">
-								<select name="years" class="years selectpicker">
-                  <option value="2018">2018</option>
-                  <option value="2019">2019</option>
-                  <option value="2020">2020</option>
-                </select>
-								<select name="months" class="months selectpicker">
-									<option value="1">январь</option>
-									<option value="2">февраль</option>
-									<option value="3">март</option>
-									<option value="4">апрель</option>
-									<option value="5">май</option>
-									<option value="6">июнь</option>
-									<option value="7">июль</option>
-									<option value="8">август</option>
-									<option value="9">сентябрь</option>
-									<option value="10">октябрь</option>
-									<option value="11">ноябрь</option>
-									<option value="12">декабрь</option>
-								</select>			
-							</div>	
+
+    <div class="container">
+      <Grid container spacing={24}>
+
+        <Grid item xs={8}>
+          
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell align="center">было</TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="center">стало</TableCell>
+                <TableCell align="center">всего</TableCell>
+                <TableCell align="center">сумма</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+          
+            <TableRow>
+              <TableCell component="th" scope="row">
+                Кабельное
+              </TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
+            </TableRow>
+          
+            <TableRow>
+              <TableCell component="th" scope="row">
+                Холодная вода
+              </TableCell>
+              <TableCell align="center">748</TableCell>
+              <TableCell align="center">-</TableCell>
+              <TableCell align="center">
+                <TextField name="hot" defaultValue={data.new_data.hot_water}/>
+              </TableCell>
+              <TableCell align="center">1</TableCell>
+              <TableCell align="center">90.55</TableCell>
+            </TableRow>
+
+          </TableBody>
+        </Table>
+
+        </Grid>
+
+        <Grid item xs={4}>
+          <Table>
+          <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="center"></TableCell>
+              </TableRow>
+            </TableHead>
+
+          <TableBody>
+            
+            <TableRow>
+              <TableCell component="th" scope="row">
+                Кабельное
+              </TableCell>
+              <TableCell align="center">
+                <TextField name="hot" defaultValue={data.new_data.hot_water}/>
+              </TableCell>
+            </TableRow>
+          
+            <TableRow>
+              <TableCell component="th" scope="row">
+                Кабельное
+              </TableCell>
+              <TableCell align="center">
+                <TextField name="hot" defaultValue={data.new_data.hot_water}/>
+              </TableCell>
+            </TableRow>
+
+          </TableBody>
+        </Table>
+      </Grid>
+       
+    </Grid>
+
+    
+     
+    
+      
+
+
+
+
+
+					<select>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+          </select>
+          <select>
+            <option value="1">январь</option>
+            <option value="2">февраль</option>
+            <option value="3">март</option>
+            <option value="4">апрель</option>
+            <option value="5">май</option>
+            <option value="6">июнь</option>
+            <option value="7">июль</option>
+            <option value="8">август</option>
+            <option value="9">сентябрь</option>
+            <option value="10">октябрь</option>
+            <option value="11">ноябрь</option>
+            <option value="12">декабрь</option>
+          </select>			
+       
+          
+        
+
+        
+				
+						{/* <form id="form" action="">										
+							
 								
 							<table class="table table-striped">
               <tbody>
@@ -217,11 +320,12 @@ class App extends Component {
 								</tr>	
                 </tbody>							
 							</table>	
-							<input type="submit" class="btn btn-success btn-lg btn-block" value="Сохранить показания"/>								
-						</form>	
-					</div>
-					<div class="col-md-4">
-						<form id="tariffs" action="#">
+							<Button color="primary" variant="contained">Сохранить показания</Button>								
+						</form>	 
+        </Grid>*/}
+
+             
+          <form id="tariffs" action="#">
 							<table class="table table-striped" >
               <tbody>
 								<tr>
@@ -266,11 +370,24 @@ class App extends Component {
                 </tr>
                 </tbody>
 							</table>
-							<input id="tariff" type="submit" class="btn btn-success btn-lg btn-block" value="Сохранить тарифы"/>
+							<Button id="tariff" type="submit" class="btn btn-success btn-lg btn-block">Сохранить тарифы</Button>
 						</form>
-					</div>
-				</div>
-			</div>
+
+
+          
+       
+
+
+        
+          <Button>Save All</Button>
+        
+    </div>
+
+
+
+      
+				
+		
     );
   }
 }
