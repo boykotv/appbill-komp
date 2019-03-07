@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+
   state = {
     data: {
+      modified_tariff: {},
+      modified_data: {},
       old_data: {
                   hot_water: 569,
                   cold_water: 748,
@@ -31,11 +34,40 @@ class App extends Component {
                   warm: 42.026,
       },        
     },
+    results: {
+                  tv: 75,
+                  house: 297.97,
+                  domophone: 0,
+                  hot_water: 611.31,
+                  cold_water: 90.55,
+                  gas: 34.19,
+                  light1: 300,
+                  light2: 200,
+    },
     isDataFetching: false,
+  };
+   
+
+  handleTariffsChange = (event) => {
+    var stateCopy = Object.assign({}, this.state);
+    stateCopy.data.modified_tariff[event.target.name] = event.target.value;
+    this.setState(stateCopy);
   }
 
+  handleDataChange = (event) => {
+    var stateCopy = Object.assign({}, this.state);
+    stateCopy.data.modified_data[event.target.name] = event.target.value;
+    this.setState(stateCopy);
+  }
+
+  findValue = (par1, par2) => {
+    return  (typeof(par1) !== 'undefined') ? par1 : par2;
+  } 
+
   render() {
-    const { data, isDataFetching } = this.state;
+    const { isDataFetching } = this.state;
+    const { old_data, new_data, tariffs, modified_tariff, modified_data } = this.state.data;
+    
     return (
 
     <div className = "container">
@@ -90,7 +122,7 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <td>
-                    { data.tariffs.tv }
+                    { tariffs.tv }
                   </td>
                 </tr>
                 <tr>
@@ -101,7 +133,7 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <td>
-                    { data.tariffs.domophone }
+                    { tariffs.domophone }
                   </td>
                 </tr>
                 <tr>
@@ -112,7 +144,7 @@ class App extends Component {
                   <td>35,43</td>
                   <td></td>
                   <td>
-                    { data.tariffs.house * 35.43 }
+                    { tariffs.house * 35.43 }
                   </td>
                 </tr>
                 <tr>
@@ -123,7 +155,7 @@ class App extends Component {
                   <td>34,5</td>
                   <td></td>
                   <td>
-                    { data.tariffs.warm * 34.5 }
+                    { Math.round(tariffs.warm * 34.5) }
                   </td>
                 </tr>	
                 <tr>
@@ -131,44 +163,48 @@ class App extends Component {
                     <a href = "http://teploseti.zp.ua/ru/abonent/" target = "_blank" rel = "noopener noreferrer">Горячая вода</a>
                   </th>
                   <td>
-                    { data.old_data.hot_water }
+                    { old_data.hot_water }
                   </td>
                   <td>-</td>
                   <td className = "has-success">
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.new_data.hot_water }
+                      value = { this.findValue(modified_data.hot_water, new_data.hot_water) }
+                      name = "hot_water"
+                      onChange = { this.handleDataChange } 
                     />
                   </td>
                   <td>
-                    { data.new_data.hot_water - data.old_data.hot_water }
+                    { new_data.hot_water - old_data.hot_water }
                   </td>
                   <td></td>
                   <td>
-                    { (data.new_data.hot_water - data.old_data.hot_water) * data.tariffs.hot_water }
+                    { (new_data.hot_water - old_data.hot_water) * tariffs.hot_water }
                   </td>
                 </tr>	
                 <tr>
                   <th>
                     <a href = "http://www.vodokanal.zp.ua/entry" target = "_blank" rel = "noopener noreferrer">Холодная вода</a></th>
                   <td>
-                    { data.old_data.cold_water }
+                    { old_data.cold_water }
                   </td>
                   <td>-</td>
                   <td className = "has-success">
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.new_data.cold_water }
+                      value = { this.findValue(modified_data.cold_water, new_data.cold_water) }
+                      name = "cold_water"
+                      onChange = { this.handleDataChange } 
                     />
                   </td>
                   <td>
-                    { data.new_data.cold_water - data.old_data.cold_water }
+                    { new_data.cold_water - old_data.cold_water }
                   </td>
                   <td></td>
                   <td>
-                    { (data.new_data.cold_water - data.old_data.cold_water) * data.tariffs.cold_water }
+                    { Math.round((new_data.cold_water - old_data.cold_water) * tariffs.cold_water) }
                   </td>
                 </tr>
                 <tr>
@@ -176,22 +212,24 @@ class App extends Component {
                     <a href = "https://104.ua/ua/cabinet/info" target = "_blank" rel = "noopener noreferrer">Газ</a>
                   </th>
                   <td>
-                    { data.old_data.gas }
+                    { old_data.gas }
                   </td>
                   <td>-</td>
                   <td className = "has-success">
                     <input 
                       type = "text" 
-                      className = "form-control" 
-                      value = { data.new_data.cold_water }
+                      className = "form-control"
+                      value = { this.findValue(modified_data.gas, new_data.gas) }
+                      name = "gas"
+                      onChange = { this.handleDataChange } 
                     />
                   </td>
                   <td>
-                    { data.new_data.gas - data.old_data.gas }
+                    { new_data.gas - old_data.gas }
                   </td>
                   <td></td>
                   <td>
-                    { (data.new_data.gas - data.old_data.gas) * data.tariffs.gas }
+                    { (new_data.gas - old_data.gas) * tariffs.gas }
                   </td>
                 </tr>	
                 <tr>
@@ -199,22 +237,24 @@ class App extends Component {
                     <a href = "http://www.zoe.com.ua/pokazania.php" target = "_blank" rel = "noopener noreferrer">Свет Т11</a>
                   </th>
                   <td>
-                    { data.old_data.light11 }                
+                    { old_data.light11 }                
                   </td>
                   <td>-</td>
                   <td className = "has-success">
                     <input 
                       type = "text" 
-                      className = "form-control" 
-                      value = { data.new_data.light11 }
+                      className = "form-control"
+                      value = { this.findValue(modified_data.light11, new_data.light11) }
+                      name = "light11"
+                      onChange = { this.handleDataChange } 
                     />
                   </td>
                   <td>
-                    { data.new_data.light11 - data.old_data.light11 }
+                    { new_data.light11 - old_data.light11 }
                   </td>
                   <td></td>
                   <td>
-                    { (data.new_data.light11 - data.old_data.light11) * data.tariffs.light1 }                 
+                    { (new_data.light11 - old_data.light11) * tariffs.light1 }                 
                   </td>
                 </tr>
                 <tr>
@@ -222,22 +262,24 @@ class App extends Component {
                     <a href = "http://www.zoe.com.ua/pokazania.php" target = "_blank" rel = "noopener noreferrer">Свет Т12</a>
                   </th>
                   <td>
-                    { data.old_data.light12 }                
+                    { old_data.light12 }                
                   </td>
                   <td>-</td>
                   <td className = "has-success">
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.new_data.light12 }
+                      value = { this.findValue(modified_data.light12, new_data.light12) }                      
+                      name = "light12"
+                      onChange = { this.handleDataChange } 
                     />
                   </td>
                   <td>
-                    { data.new_data.light12 - data.old_data.light12 }
+                    { new_data.light12 - old_data.light12 }
                   </td>
                   <td></td>
                   <td>
-                    { (data.new_data.light12 - data.old_data.light12) * data.tariffs.light2 }                 
+                    { (new_data.light12 - old_data.light12) * tariffs.light2 }                 
                   </td>
                 </tr>
                 <tr className = "success">
@@ -267,7 +309,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.house }
+                      value = { this.findValue(modified_tariff.house, tariffs.house) }
+                      name = "house"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -276,8 +320,10 @@ class App extends Component {
                   <td className = "has-success">
                     <input 
                       type = "text" 
-                      className = "form-control" 
-                      value = { data.tariffs.domophone }
+                      className = "form-control"
+                      value = { this.findValue(modified_tariff.domophone, tariffs.domophone) }
+                      name = "domophone"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -286,8 +332,10 @@ class App extends Component {
                   <td className = "has-success">
                     <input 
                       type = "text" 
-                      className = "form-control" 
-                      value = { data.tariffs.tv }
+                      className = "form-control"
+                      value = { this.findValue(modified_tariff.tv, tariffs.tv) }                    
+                      name = "tv"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -297,7 +345,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.cold_water }
+                      value = { this.findValue(modified_tariff.cold_water, tariffs.cold_water) }  
+                      name = "cold_water"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>	
@@ -307,7 +357,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.hot_water }
+                      value = { this.findValue(modified_tariff.hot_water, tariffs.hot_water) }  
+                      name = "hot_water"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -317,7 +369,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.stocks }
+                      value = { this.findValue(modified_tariff.stocks, tariffs.stocks) }                    
+                      name = "stocks"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -327,7 +381,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.gas }
+                      value = { this.findValue(modified_tariff.gas, tariffs.gas) }
+                      name = "gas"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -337,7 +393,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.light1 }
+                      value = { this.findValue(modified_tariff.light1, tariffs.light1) }
+                      name = "light1"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -347,7 +405,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.light2 }
+                      value = { this.findValue(modified_tariff.light2, tariffs.light2) }
+                      name = "light2"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
@@ -357,7 +417,9 @@ class App extends Component {
                     <input 
                       type = "text" 
                       className = "form-control" 
-                      value = { data.tariffs.warm }
+                      value = { this.findValue(modified_tariff.warm, tariffs.warm) }
+                      name = "warm"
+                      onChange = { this.handleTariffsChange } 
                     />
                   </td>
                 </tr>
