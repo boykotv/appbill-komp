@@ -11,14 +11,14 @@ class App extends Component {
                   hot_water: 569,
                   cold_water: 748,
                   gas: 110,
-                  light11: 3,
+                  light11: 0,
                   light12: 0,
       },
       new_data: {
                   hot_water: 576,
                   cold_water: 751,
                   gas: 114,
-                  light11: 33,
+                  light11: 100,
                   light12: 4,
       },
       tariffs: {
@@ -34,6 +34,11 @@ class App extends Component {
                   warm: 42.026,
       },        
     },
+    info: {
+                  house: 35.43,
+                  warm: 34.5,
+    },
+    diff: {},
     results: {
                   tv: 75,
                   house: 297.97,
@@ -46,28 +51,70 @@ class App extends Component {
     },
     isDataFetching: false,
   };
+
+  //+алерт - данные не сохранены!!!
    
+  componentDidMount = () => {
+    var stateCopy = Object.assign({}, this.state);
+    this.setState(this.CalcBill(stateCopy));
+  }
+
+  findValue = (par1, par2) => {
+    return (typeof(par1) !== 'undefined') ? par1 : par2;
+  } 
 
   handleTariffsChange = (event) => {
     var stateCopy = Object.assign({}, this.state);
     stateCopy.data.modified_tariff[event.target.name] = event.target.value;
-    this.setState(stateCopy);
+    this.setState(this.CalcBill(stateCopy));
   }
 
   handleDataChange = (event) => {
     var stateCopy = Object.assign({}, this.state);
     stateCopy.data.modified_data[event.target.name] = event.target.value;
-    this.setState(stateCopy);
+    this.setState(this.CalcBill(stateCopy));
   }
 
-  findValue = (par1, par2) => {
-    return  (typeof(par1) !== 'undefined') ? par1 : par2;
-  } 
+  CalcBill = (stateCopy) => {
+    const { old_data, new_data, modified_data, tariffs, modified_tariff } = stateCopy.data;
+    const { info } = stateCopy;
+
+    var diff = {};
+    diff.hot_water = this.findValue(modified_data.hot_water, new_data.hot_water) - old_data.hot_water;
+    diff.cold_water = this.findValue(modified_data.cold_water, new_data.cold_water) - old_data.cold_water;
+    diff.gas = this.findValue(modified_data.gas, new_data.gas) - old_data.gas;
+    diff.light11 = this.findValue(modified_data.light11, new_data.light11) - old_data.light11;
+    diff.light12 = this.findValue(modified_data.light12, new_data.light12) - old_data.light12;
+    stateCopy.diff = diff;
+
+    var results = {};
+    results.tv = Number((this.findValue(modified_tariff.tv, tariffs.tv)).toFixed(2));
+    results.domophone = Number((this.findValue(modified_tariff.domophone, tariffs.domophone)).toFixed(2));
+    results.house = Number((this.findValue(modified_tariff.house, tariffs.house) * info.house).toFixed(2));
+    results.warm = Number((this.findValue(modified_tariff.warm, tariffs.warm) * info.warm).toFixed(2));
+    results.hot_water = Number((this.findValue(modified_tariff.hot_water, tariffs.hot_water) * diff.hot_water).toFixed(2));
+    results.cold_water = Number((this.findValue(modified_tariff.cold_water, tariffs.cold_water) * diff.cold_water
+                        + this.findValue(modified_tariff.stocks, tariffs.stocks) * diff.cold_water
+                        + this.findValue(modified_tariff.stocks, tariffs.stocks) * diff.hot_water).toFixed(2));
+    results.gas = Number((this.findValue(modified_tariff.gas, tariffs.gas) * diff.gas).toFixed(2));
+    results.light11 = Number(((diff.light11 <= 100) ? 
+                       diff.light11 * this.findValue(modified_tariff.light1, tariffs.light1) :
+                       100 * this.findValue(modified_tariff.light1, tariffs.light1) + (diff.light11 - 100) * this.findValue(modified_tariff.light2, tariffs.light2)).toFixed(2));
+    results.light12 = Number(((diff.light12 <= 100) ? 
+                       0.5 * diff.light12 * this.findValue(modified_tariff.light1, tariffs.light1) :
+                       0.5 * 100 * this.findValue(modified_tariff.light1, tariffs.light1) + (diff.light12 - 100) * this.findValue(modified_tariff.light2, tariffs.light2)).toFixed(2));
+    results.totall = Number((results.tv + results.domophone + results.house + results.warm + results.hot_water
+                    + results.cold_water + results.gas + results.light11 + results.light12).toFixed(2));
+
+    stateCopy.results = results;
+    return stateCopy;
+    
+  }
 
   render() {
-    const { isDataFetching } = this.state;
     const { old_data, new_data, tariffs, modified_tariff, modified_data } = this.state.data;
-    
+    const { diff, results, info, isDataFetching } = this.state;
+  
     return (
 
     <div className = "container">
@@ -122,7 +169,7 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <td>
-                    { tariffs.tv }
+                    { results.tv }
                   </td>
                 </tr>
                 <tr>
@@ -133,7 +180,7 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <td>
-                    { tariffs.domophone }
+                    { results.domophone }
                   </td>
                 </tr>
                 <tr>
@@ -141,10 +188,10 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>35,43</td>
+                  <td>{info.house}</td>
                   <td></td>
                   <td>
-                    { tariffs.house * 35.43 }
+                    { results.house }
                   </td>
                 </tr>
                 <tr>
@@ -152,10 +199,10 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>34,5</td>
+                  <td>{ info.warm }</td>
                   <td></td>
                   <td>
-                    { Math.round(tariffs.warm * 34.5) }
+                    { results.warm }
                   </td>
                 </tr>	
                 <tr>
@@ -176,11 +223,11 @@ class App extends Component {
                     />
                   </td>
                   <td>
-                    { new_data.hot_water - old_data.hot_water }
+                    { diff.hot_water }
                   </td>
                   <td></td>
                   <td>
-                    { (new_data.hot_water - old_data.hot_water) * tariffs.hot_water }
+                    { results.hot_water }
                   </td>
                 </tr>	
                 <tr>
@@ -200,11 +247,11 @@ class App extends Component {
                     />
                   </td>
                   <td>
-                    { new_data.cold_water - old_data.cold_water }
+                    { diff.cold_water }
                   </td>
                   <td></td>
                   <td>
-                    { Math.round((new_data.cold_water - old_data.cold_water) * tariffs.cold_water) }
+                    { results.cold_water }
                   </td>
                 </tr>
                 <tr>
@@ -225,11 +272,11 @@ class App extends Component {
                     />
                   </td>
                   <td>
-                    { new_data.gas - old_data.gas }
+                    { diff.gas }
                   </td>
                   <td></td>
                   <td>
-                    { (new_data.gas - old_data.gas) * tariffs.gas }
+                    { results.gas }
                   </td>
                 </tr>	
                 <tr>
@@ -250,11 +297,11 @@ class App extends Component {
                     />
                   </td>
                   <td>
-                    { new_data.light11 - old_data.light11 }
+                    { diff.light11 }
                   </td>
                   <td></td>
                   <td>
-                    { (new_data.light11 - old_data.light11) * tariffs.light1 }                 
+                    { results.light11 }                 
                   </td>
                 </tr>
                 <tr>
@@ -275,11 +322,11 @@ class App extends Component {
                     />
                   </td>
                   <td>
-                    { new_data.light12 - old_data.light12 }
+                    { diff.light12 }
                   </td>
                   <td></td>
                   <td>
-                    { (new_data.light12 - old_data.light12) * tariffs.light2 }                 
+                    { results.light12 }                 
                   </td>
                 </tr>
                 <tr className = "success">
@@ -290,7 +337,7 @@ class App extends Component {
                   <td></td>
                   <td></td>
                   <th>
-                    $tottaly;
+                    { results.totall }
                   </th>
                 </tr>				
               </tbody>				
