@@ -20,7 +20,7 @@ height: 51px;
 
 .alert{
 margin-bottom: 0;
-display: none;
+/*display: none;*/
 position: absolute;
 }
 

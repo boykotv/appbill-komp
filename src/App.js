@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+//import { delay } from './delay';
 
 class App extends Component {
 
@@ -39,24 +40,19 @@ class App extends Component {
                   warm: 34.5,
     },
     diff: {},
-    results: {
-                  tv: 75,
-                  house: 297.97,
-                  domophone: 0,
-                  hot_water: 611.31,
-                  cold_water: 90.55,
-                  gas: 34.19,
-                  light1: 300,
-                  light2: 200,
-    },
+    results: {},
     isDataFetching: false,
+    isDataChanged: false,
   };
 
-  //+алерт - данные не сохранены!!!
-   
+  _setDataFetchingState = (state) => {
+    this.setState({
+      isDataFetching: state,
+    });
+  }
+
   componentDidMount = () => {
-    var stateCopy = Object.assign({}, this.state);
-    this.setState(this.CalcBill(stateCopy));
+    this.setState(this.CalcBill(Object.assign({}, this.state)));
   }
 
   findValue = (par1, par2) => {
@@ -64,15 +60,24 @@ class App extends Component {
   } 
 
   handleTariffsChange = (event) => {
+    
     var stateCopy = Object.assign({}, this.state);
     stateCopy.data.modified_tariff[event.target.name] = event.target.value;
-    this.setState(this.CalcBill(stateCopy));
+    stateCopy.isDataChanged = true;
+    
+    this._setDataFetchingState(true);
+    this.setState(this.CalcBill(stateCopy));   
+    this._setDataFetchingState(false);
   }
 
   handleDataChange = (event) => {
     var stateCopy = Object.assign({}, this.state);
     stateCopy.data.modified_data[event.target.name] = event.target.value;
+    stateCopy.isDataChanged = true;
+
+    this._setDataFetchingState(true);
     this.setState(this.CalcBill(stateCopy));
+    this._setDataFetchingState(false);
   }
 
   CalcBill = (stateCopy) => {
@@ -107,13 +112,13 @@ class App extends Component {
                     + results.cold_water + results.gas + results.light11 + results.light12).toFixed(2));
 
     stateCopy.results = results;
-    return stateCopy;
     
+    return stateCopy;
   }
 
   render() {
     const { old_data, new_data, tariffs, modified_tariff, modified_data } = this.state.data;
-    const { diff, results, info, isDataFetching } = this.state;
+    const { diff, results, info, isDataChanged } = this.state;
   
     return (
 
@@ -121,8 +126,7 @@ class App extends Component {
       <div className = "row">
 				<div className = "col-md-6">	
 					<div className = "alert alert-success" id = "success-alert">
-						<strong>Успешно! </strong>
-							Данные загружены!
+						<strong>{ isDataChanged ? 'need save' : null }</strong>
 					</div>	
 
           <form id = "form">	
