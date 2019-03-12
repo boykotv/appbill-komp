@@ -123,363 +123,369 @@ class App extends Component {
     return (
 
     <div className = "container">
+
       <div className = "row">
-				<div className = "col-md-6">	
-					<div className = "alert alert-success" id = "success-alert">
-						<strong>{ isDataChanged ? 'need save' : null }</strong>
-					</div>	
-
-          <form id = "form">	
-
-            <div id = "options" className = "pull-right">
-              <select name = "years" className = "years selectpicker">
-                <option value = "2018">2018</option>
-                <option value = "2019">2019</option>
-                <option value = "2020">2020</option>
-              </select>
-              <select name = "months" className = "months selectpicker">
-                <option value = "1">январь</option>
-                <option value = "2">февраль</option>
-                <option value = "3">март</option>
-                <option value = "4">апрель</option>
-                <option value = "5">май</option>
-                <option value = "6">июнь</option>
-                <option value = "7">июль</option>
-                <option value = "8">август</option>
-                <option value = "9">сентябрь</option>
-                <option value = "10">октябрь</option>
-                <option value = "11">ноябрь</option>
-                <option value = "12">декабрь</option>
-              </select>			
-            </div>	
-								
-								
-            <table className = "table table-striped">
-              <tbody>
-                <tr>
-                  <th></th>
-                  <th>было</th>
-                  <th></th>
-                  <th>стало</th>
-                  <th>всего</th>
-                  <th></th>
-                  <th>сумма</th>
-                </tr>	
-                <tr>
-                  <th>Кабельное ТВ</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    { results.tv }
-                  </td>
-                </tr>
-                <tr>
-                  <th>Домофон</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    { results.domophone }
-                  </td>
-                </tr>
-                <tr>
-                  <th>Содержание дома</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>{info.house}</td>
-                  <td></td>
-                  <td>
-                    { results.house }
-                  </td>
-                </tr>
-                <tr>
-                  <th>Отопление</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>{ info.warm }</td>
-                  <td></td>
-                  <td>
-                    { results.warm }
-                  </td>
-                </tr>	
-                <tr>
-                  <th>
-                    <a href = "http://teploseti.zp.ua/ru/abonent/" target = "_blank" rel = "noopener noreferrer">Горячая вода</a>
-                  </th>
-                  <td>
-                    { old_data.hot_water }
-                  </td>
-                  <td>-</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_data.hot_water, new_data.hot_water) }
-                      name = "hot_water"
-                      onChange = { this.handleDataChange } 
-                    />
-                  </td>
-                  <td>
-                    { diff.hot_water }
-                  </td>
-                  <td></td>
-                  <td>
-                    { results.hot_water }
-                  </td>
-                </tr>	
-                <tr>
-                  <th>
-                    <a href = "http://www.vodokanal.zp.ua/entry" target = "_blank" rel = "noopener noreferrer">Холодная вода</a></th>
-                  <td>
-                    { old_data.cold_water }
-                  </td>
-                  <td>-</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_data.cold_water, new_data.cold_water) }
-                      name = "cold_water"
-                      onChange = { this.handleDataChange } 
-                    />
-                  </td>
-                  <td>
-                    { diff.cold_water }
-                  </td>
-                  <td></td>
-                  <td>
-                    { results.cold_water }
-                  </td>
-                </tr>
-                <tr>
-                  <th>
-                    <a href = "https://104.ua/ua/cabinet/info" target = "_blank" rel = "noopener noreferrer">Газ</a>
-                  </th>
-                  <td>
-                    { old_data.gas }
-                  </td>
-                  <td>-</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control"
-                      value = { this.findValue(modified_data.gas, new_data.gas) }
-                      name = "gas"
-                      onChange = { this.handleDataChange } 
-                    />
-                  </td>
-                  <td>
-                    { diff.gas }
-                  </td>
-                  <td></td>
-                  <td>
-                    { results.gas }
-                  </td>
-                </tr>	
-                <tr>
-                  <th>
-                    <a href = "http://www.zoe.com.ua/pokazania.php" target = "_blank" rel = "noopener noreferrer">Свет Т11</a>
-                  </th>
-                  <td>
-                    { old_data.light11 }                
-                  </td>
-                  <td>-</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control"
-                      value = { this.findValue(modified_data.light11, new_data.light11) }
-                      name = "light11"
-                      onChange = { this.handleDataChange } 
-                    />
-                  </td>
-                  <td>
-                    { diff.light11 }
-                  </td>
-                  <td></td>
-                  <td>
-                    { results.light11 }                 
-                  </td>
-                </tr>
-                <tr>
-                  <th>
-                    <a href = "http://www.zoe.com.ua/pokazania.php" target = "_blank" rel = "noopener noreferrer">Свет Т12</a>
-                  </th>
-                  <td>
-                    { old_data.light12 }                
-                  </td>
-                  <td>-</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_data.light12, new_data.light12) }                      
-                      name = "light12"
-                      onChange = { this.handleDataChange } 
-                    />
-                  </td>
-                  <td>
-                    { diff.light12 }
-                  </td>
-                  <td></td>
-                  <td>
-                    { results.light12 }                 
-                  </td>
-                </tr>
-                <tr className = "success">
-                  <th>ИТОГО</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <th>
-                    { results.totall }
-                  </th>
-                </tr>				
-              </tbody>				
-            </table>	
-            <input type = "submit" className = "btn btn-success btn-lg btn-block" value="Сохранить показания"/>								
-          </form>	
-				</div>
-
-        <div className = "col-md-4">
-          <form id = "tariffs">
-            <table className = "table table-striped">
-              <tbody>
-                <tr>
-                  <td>Содержание дома</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.house, tariffs.house) }
-                      name = "house"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Домофон</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control"
-                      value = { this.findValue(modified_tariff.domophone, tariffs.domophone) }
-                      name = "domophone"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Кабельное</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control"
-                      value = { this.findValue(modified_tariff.tv, tariffs.tv) }                    
-                      name = "tv"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Холодная вода</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.cold_water, tariffs.cold_water) }  
-                      name = "cold_water"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>	
-                <tr>
-                  <td>Горячая вода</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.hot_water, tariffs.hot_water) }  
-                      name = "hot_water"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Стоки</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.stocks, tariffs.stocks) }                    
-                      name = "stocks"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Газ</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.gas, tariffs.gas) }
-                      name = "gas"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Свет &lt; 100</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.light1, tariffs.light1) }
-                      name = "light1"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Свет &gt; 100</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.light2, tariffs.light2) }
-                      name = "light2"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Отопление</td>
-                  <td className = "has-success">
-                    <input 
-                      type = "text" 
-                      className = "form-control" 
-                      value = { this.findValue(modified_tariff.warm, tariffs.warm) }
-                      name = "warm"
-                      onChange = { this.handleTariffsChange } 
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <input type = "submit" className = "btn btn-success btn-lg btn-block" value = "Сохранить тарифы"/>
-          </form>
+        <div className = "col-md-3">
+          <div className = "alert alert-success" id = "success-alert">
+            <strong>{ isDataChanged ? 'Есть несохраненные изменения' : null }</strong>
+          </div>	
+        </div>
+        <div className = "col-md-12">
+          <div id = "options">
+            <select name = "years" className = "years selectpicker">
+              <option value = "2018">2018</option>
+              <option value = "2019">2019</option>
+              <option value = "2020">2020</option>
+            </select>
+            <select name = "months" className = "months selectpicker">
+              <option value = "1">январь</option>
+              <option value = "2">февраль</option>
+              <option value = "3">март</option>
+              <option value = "4">апрель</option>
+              <option value = "5">май</option>
+              <option value = "6">июнь</option>
+              <option value = "7">июль</option>
+              <option value = "8">август</option>
+              <option value = "9">сентябрь</option>
+              <option value = "10">октябрь</option>
+              <option value = "11">ноябрь</option>
+              <option value = "12">декабрь</option>
+            </select>			
+          </div>	
         </div>
       </div>
+
+      <div className = "row">
+				<div className = "col-md-7">					
+          <table className = "table table-striped">
+            <tbody>
+              <tr>
+                <th></th>
+                <th>было</th>
+                <th></th>
+                <th>стало</th>
+                <th>всего</th>
+                <th></th>
+                <th>сумма</th>
+              </tr>	
+              <tr>
+                <th>Кабельное ТВ</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  { results.tv }
+                </td>
+              </tr>
+              <tr>
+                <th>Домофон</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  { results.domophone }
+                </td>
+              </tr>
+              <tr>
+                <th>Содержание дома</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{info.house}</td>
+                <td></td>
+                <td>
+                  { results.house }
+                </td>
+              </tr>
+              <tr>
+                <th>Отопление</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{ info.warm }</td>
+                <td></td>
+                <td>
+                  { results.warm }
+                </td>
+              </tr>	
+              <tr>
+                <th>
+                  <a href = "http://teploseti.zp.ua/ru/abonent/" target = "_blank" rel = "noopener noreferrer">Горячая вода</a>
+                </th>
+                <td>
+                  { old_data.hot_water }
+                </td>
+                <td>-</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_data.hot_water, new_data.hot_water) }
+                    name = "hot_water"
+                    onChange = { this.handleDataChange } 
+                  />
+                </td>
+                <td>
+                  { diff.hot_water }
+                </td>
+                <td></td>
+                <td>
+                  { results.hot_water }
+                </td>
+              </tr>	
+              <tr>
+                <th>
+                  <a href = "http://www.vodokanal.zp.ua/entry" target = "_blank" rel = "noopener noreferrer">Холодная вода</a></th>
+                <td>
+                  { old_data.cold_water }
+                </td>
+                <td>-</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_data.cold_water, new_data.cold_water) }
+                    name = "cold_water"
+                    onChange = { this.handleDataChange } 
+                  />
+                </td>
+                <td>
+                  { diff.cold_water }
+                </td>
+                <td></td>
+                <td>
+                  { results.cold_water }
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <a href = "https://104.ua/ua/cabinet/info" target = "_blank" rel = "noopener noreferrer">Газ</a>
+                </th>
+                <td>
+                  { old_data.gas }
+                </td>
+                <td>-</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control"
+                    value = { this.findValue(modified_data.gas, new_data.gas) }
+                    name = "gas"
+                    onChange = { this.handleDataChange } 
+                  />
+                </td>
+                <td>
+                  { diff.gas }
+                </td>
+                <td></td>
+                <td>
+                  { results.gas }
+                </td>
+              </tr>	
+              <tr>
+                <th>
+                  <a href = "http://www.zoe.com.ua/pokazania.php" target = "_blank" rel = "noopener noreferrer">Свет Т11</a>
+                </th>
+                <td>
+                  { old_data.light11 }                
+                </td>
+                <td>-</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control"
+                    value = { this.findValue(modified_data.light11, new_data.light11) }
+                    name = "light11"
+                    onChange = { this.handleDataChange } 
+                  />
+                </td>
+                <td>
+                  { diff.light11 }
+                </td>
+                <td></td>
+                <td>
+                  { results.light11 }                 
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <a href = "http://www.zoe.com.ua/pokazania.php" target = "_blank" rel = "noopener noreferrer">Свет Т12</a>
+                </th>
+                <td>
+                  { old_data.light12 }                
+                </td>
+                <td>-</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_data.light12, new_data.light12) }                      
+                    name = "light12"
+                    onChange = { this.handleDataChange } 
+                  />
+                </td>
+                <td>
+                  { diff.light12 }
+                </td>
+                <td></td>
+                <td>
+                  { results.light12 }                 
+                </td>
+              </tr>
+              <tr className = "success">
+                <th>ИТОГО</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>
+                  { results.totall }
+                </th>
+              </tr>				
+            </tbody>				
+          </table>							         
+				</div>
+
+        <div className = "col-md-5">
+          <table className = "table table-striped">
+            <tbody>
+              <tr>
+                <td>Содержание дома</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.house, tariffs.house) }
+                    name = "house"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Домофон</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control"
+                    value = { this.findValue(modified_tariff.domophone, tariffs.domophone) }
+                    name = "domophone"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Кабельное</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control"
+                    value = { this.findValue(modified_tariff.tv, tariffs.tv) }                    
+                    name = "tv"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Холодная вода</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.cold_water, tariffs.cold_water) }  
+                    name = "cold_water"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>	
+              <tr>
+                <td>Горячая вода</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.hot_water, tariffs.hot_water) }  
+                    name = "hot_water"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Стоки</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.stocks, tariffs.stocks) }                    
+                    name = "stocks"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Газ</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.gas, tariffs.gas) }
+                    name = "gas"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Свет &lt; 100</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.light1, tariffs.light1) }
+                    name = "light1"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Свет &gt; 100</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.light2, tariffs.light2) }
+                    name = "light2"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Отопление</td>
+                <td className = "has-success">
+                  <input 
+                    type = "text" 
+                    className = "form-control" 
+                    value = { this.findValue(modified_tariff.warm, tariffs.warm) }
+                    name = "warm"
+                    onChange = { this.handleTariffsChange } 
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className = "row">
+        <div className = "col-md-12">
+          <input type = "submit" className = "btn btn-success btn-lg btn-block" value="Сохранить показания"/>		
+        </div>
+      </div>
+        
+      
     </div>		
 		
     );

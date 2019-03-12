@@ -3,25 +3,28 @@ html, body, .container-table {
 }
 
 .col-md-2{
-text-align: center;
+  text-align: center;
 }
-#tariffs{
-margin: 64px 0 0 0;
+.container{
+  margin: 15px auto;
 }
 #options{
-margin: 15px 0;
+  margin: 15px 0;
+  text-align: center;
 }
 input.form-control{
-max-width: 80px;
+  max-width: 80px;
 }
 .table > tbody > tr{
-height: 51px;
+  height: 51px;
 }
 
 .alert{
-margin-bottom: 0;
-/*display: none;*/
-position: absolute;
+  margin: 15px 0;
+  /* display: none; */
+  position: absolute;
+  height: 34px;
+  padding: 5px 10px;
 }
 
 .container-table {
@@ -33,10 +36,10 @@ position: absolute;
 }
 
 .rejected{
-line-height: 60px;
-background-color: #f2dede;
+  line-height: 60px;
+  background-color: #f2dede;
   color: #a94442;
-border: 1px solid #ebccd1;
+  border: 1px solid #ebccd1;
   border-radius: 4px;
   padding: 15px;
 }
